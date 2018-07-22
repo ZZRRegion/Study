@@ -1,2 +1,13 @@
-var [x, y, z] = ['hello', 'js', 'es6'];
-console.log(x + y + z);
+var request = new XMLHttpRequest();
+request.onreadystatechange = function(){
+    if(request.readyState === 4){
+        if(request.status === 200){
+            
+        } else {
+
+        }
+    }
+
+}
+request.open("GET", "/api/cat");
+request.send();

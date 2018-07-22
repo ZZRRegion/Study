@@ -6,8 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="index.js"></script>
+    <style>
+        h1 {
+            color: red;
+            font-size: 2em;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>测试样式</h1>
+    <h1>测试样式</h1>
+
+    <h1>测试样式</h1>
+    <input type="date" value="2015-07-01">
+    <button onclick="wo()">点击</button>
 </body>
+<script>
+    function wo(){
+        var items = document.getElementsByTagName("h1");
+        for(var i = 0; i < items.length; i++){
+            console.log(items[i]);
+            items[i].style.color = "blue";
+            items[i].style.fontSize = '1em';
+        }
+    }    
+</script>
 </html>
