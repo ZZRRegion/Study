@@ -1,4 +1,4 @@
 cd git
 git add *
-git commit -m 'è‡ªåŠ¨åŒ–æäº¤'
+git commit -m '×Ô¶¯»¯Ìá½»11'
 pause
