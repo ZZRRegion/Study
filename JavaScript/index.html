@@ -20,14 +20,20 @@
     <h1>测试样式</h1>
     <input type="date" value="2015-07-01">
     <button onclick="wo()">点击</button>
+    <input id="ni" type="file" multiple>
 </body>
 <script>
+    console.log(window.Blob);
+    var blob = new Blob();
+    console.log(blob);
     function wo(){
-        var items = document.getElementsByTagName("h1");
-        for(var i = 0; i < items.length; i++){
-            console.log(items[i]);
-            items[i].style.color = "blue";
-            items[i].style.fontSize = '1em';
+        for(var i = 0; i < document.getElementById("ni").files.length; i++){
+            var file = document.getElementById("ni").files[i];
+            console.log(file);
+            console.log(file.name);
+            console.log(file.lastModified);
+            console.log(file.lastModifiedDate);
+            console.log(file.size);
         }
     }    
 </script>
