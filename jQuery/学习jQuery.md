@@ -93,3 +93,83 @@ $(fucntion(){
 > 关于:和[]这两个符号的理解  
 > :可以理解为种类的意思,如:p:first,p的种类为第一个.  
 > []很自然的可以理解为属性的意思,如:[href]选取所有带href属性的元素.
+
+|语法|描述|
+|---|---|
+|$("*")|选取所有元素|
+|$(this)|选取当前HTML元素|
+|$("p.intro")|选取class为intro的<p>元素|
+|$("p:first")|选取第一个<p>元素|
+|$("ul li:first")|选取第一个<ul>元素的第一个<li>元素|
+|$("ul li:first-child")|选取每个<ul>元素的第一个<li>元素|
+|$("[href]")|选取带有href属性的元素|
+|$("a[target='_blank']")|选取所有target属性值等于"_blank"的<a>元素|
+|$("a[target!='_blank']")|选取所有target属性值不等于"_blank"的<a>元素|
+|$("tr:event")|选取偶数位置的<tr>元素|
+|$("tr:odd")|选取奇数位置的<tr>元素|
+## jQuery事件  
+<span id="event">常用DOM事件</span>
+|鼠标事件|键盘事件|表单事件|文档窗口事件|
+|---|---|---|---|
+|click|keypress|submit|load|
+|dblclick|keydown|change|resize|
+|mouseenter|keyup|focus|scroll|
+|mouseleave||blur|unload|
+**jQuery事件方法语法**
+页面中指定一个点击事件:  
+``` JS
+$("p").click()
+```
+下一步是定义完成什么:  
+``` JS
+$("p").click(function(){
+    //动作触发后的执行代码
+})
+```
+**常用的jQuery事件方法**
+``` JS
+$("p").click(function(){
+
+})
+$("p").dblclick(function(){
+
+})
+$("p").mouseenter(function(){
+
+})
+$("p").mouseleave(function(){
+
+})
+$("p").mousedown(function(){
+
+})
+$("p").mouseup(function(){
+
+})
+$("p").hover(function(){
+
+})
+$("input").focus(function(){
+
+})
+$("input").blur(function(){
+
+})
+$(window).keydown(function(event){
+    //通过event.whitch可以拿到按键代码.
+})
+```
+
+传递数据给事件处理函数  
+> jQuery.keydown([[data,] handler]);
+- data:通过event.data传递给事件处理函数的任意数据
+- handler:指定的事件处理函数;  
+  
+举例:  
+```
+var validKeys = {start: 65, end: 90};
+$("#key").keydown(validKeys, function(event){
+    var keys = event.data;//拿到validkeys对象.
+    return event.which >= keys.start && event.which <= keys.end;
+})
+```
