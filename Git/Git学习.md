@@ -36,5 +36,5 @@ git log --pretty=oneline可以看得舒服一些
 git reset --hard HEAD^回退到上一个版本  
 git reset --hard 1094a (commit id版本号)即可回退到指定版本  
 git reflog 会显示每一次的命令  
-**版本库**
+**版本库**  
 ![版本库图](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0)

@@ -89,24 +89,25 @@ $(fucntion(){
 });
 ```  
 *番外*  
-> 通过$(":button")可以选取所有type="button"的<input>元素和<button>元素,如果去掉冒号,$("button")智能选取<button>元素.
-> 关于:和[]这两个符号的理解  
-> :可以理解为种类的意思,如:p:first,p的种类为第一个.  
-> []很自然的可以理解为属性的意思,如:[href]选取所有带href属性的元素.
-
+```
+通过$(":button")可以选取所有type="button"的<input>元素和<button>元素,如果去掉冒号,$("button")智能选取<button>元素.
+关于:和[]这两个符号的理解  
+:可以理解为种类的意思,如:p:first,p的种类为第一个.  
+[]很自然的可以理解为属性的意思,如:[href]选取所有带href属性的元素.
+```
 |语法|描述|
 |---|---|
 |$("*")|选取所有元素|
 |$(this)|选取当前HTML元素|
-|$("p.intro")|选取class为intro的<p>元素|
-|$("p:first")|选取第一个<p>元素|
-|$("ul li:first")|选取第一个<ul>元素的第一个<li>元素|
-|$("ul li:first-child")|选取每个<ul>元素的第一个<li>元素|
+|$("p.intro")|选取class为intro的p元素|
+|$("p:first")|选取第一个p元素|
+|$("ul li:first")|选取第一个ul元素的第一个li元素|
+|$("ul li:first-child")|选取每个ul元素的第一个li元素|
 |$("[href]")|选取带有href属性的元素|
-|$("a[target='_blank']")|选取所有target属性值等于"_blank"的<a>元素|
-|$("a[target!='_blank']")|选取所有target属性值不等于"_blank"的<a>元素|
-|$("tr:event")|选取偶数位置的<tr>元素|
-|$("tr:odd")|选取奇数位置的<tr>元素|
+|$("a[target='_blank']")|选取所有target属性值等于"_blank"的a元素|
+|$("a[target!='_blank']")|选取所有target属性值不等于"_blank"的a元素|
+|$("tr:event")|选取偶数位置的tr元素|
+|$("tr:odd")|选取奇数位置的tr元素|
 ## jQuery事件  
 <span id="event">常用DOM事件</span>
 |鼠标事件|键盘事件|表单事件|文档窗口事件|
@@ -172,4 +173,116 @@ $("#key").keydown(validKeys, function(event){
     var keys = event.data;//拿到validkeys对象.
     return event.which >= keys.start && event.which <= keys.end;
 })
+```
+## jQuery效果-隐藏和显示  
+隐藏,显示,切换,滑动,淡入淡出,以及动画.  
+**jQuery.hide()和show()**  
+``` JS
+$("#hide").click(function(){
+    $("p").hide();
+})
+#("#show").click(function(){
+    $("p").show();
+})
+```
+语法:  
+``` JS
+$(selector).hide(speed, callback);
+$(selector).show(speed, callback);
+```
+可选的speed参数规定隐藏/显示的速度,可以取以下值:"slow","fast"或毫秒.  
+可选的callback参数是隐藏或显示完成后执行的函数名称.
+例子:  
+``` JS
+$(function(){
+    $("click").click(function(){
+        $("p").hide(2000, function(){
+            console.log("隐藏完毕!");
+        })
+    })
+})
+```
+**jQuery.toggle()**
+通过jQuery,可以使用toggle()方法来切换hide()和show()方法.  
+语法:  
+> $(selector).toggle(speed, callback);  
+
+与show,hide相同的参数意义
+``` JS
+$("button").click(function(){
+    $("p").toggle(1000, function(){
+        console.log("ok");
+    });
+})
+```
+*番外*
+对于可选的callback参数,有以下两点说明:  
+1. $(selector)选中的元素的个数为n哥,则callback函数会执行n次.  
+2. callback函数名后加括号,会立即执行函数,而不是等到显示或隐藏完成后执行,但是只会执行一次. 
+3. callback既可以是函数名,也可以是匿名函数;  
+## jQuery效果-淡入淡出
+通过jQuery可以实现元素的淡入淡出效果,拥有四种fade方法:  
+- fadeIn()
+- fadeOut()
+- fadeToggle()
+- fadeTo()
+
+**jQuery fadeIn()方法**
+用于淡入已隐藏的元素.  
+语法:
+> $(selector).fadeIn(speed, callback)
+
+例子:
+``` JS
+$("#wo").click(function(){
+    $("p").fadeIn(1000, function(){
+        console.log("可以整");
+    })
+})
+```
+**jQuery fadeOut()方法**
+用于淡出可见元素.  
+语法:
+> $(selector).fadeout(speed, callback);
+
+例子:
+``` JS
+$(selector).click(function(){
+    $("#p").fadeOut();
+    #("#a").fadeOut(3000);
+})
+```  
+**jQuery fadeToggle()方法**
+该方法可以在fadeIn()方法和fadeOut()方法之间进行切换.  
+语法:  
+> $(selector).fadeToggle(speed, callback)  
+
+例子:  
+``` JS
+$("button").click(function(){
+    $("#div1").fadeToggle();
+    $("#div2").fadeToggle(3200);
+})
+```
+**jQuery fadeTo()方法**
+该方法允许渐变为给定的不透明度(值介于0与1之间).  
+语法:  
+> $(selector).fadeTo(speed, opacity, callback)  
+
+必须的speed参数规定效果的时长  
+opacity参数为淡入淡出效果设置的不透明度.  
+可选的callback参数是该函数完成后所执行的函数名称.  
+例子:
+``` HTML
+<p style="color: red;">设施显示的画面</p>
+<p style="color: blue;">这是例外</p>
+<button id="abc">点击我</button>
+<button id="wo">点对对对</button>
+<script>
+    $(function(){
+        $("#abc").click(function(){
+            $("p").fadeTo(2000, 0.3);
+        })
+    })
+</script>
 ```

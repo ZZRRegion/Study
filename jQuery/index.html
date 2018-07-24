@@ -8,13 +8,16 @@
     <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
+    <p style="color: red;">设施显示的画面</p>
+    <p style="color: blue;">这是例外</p>
+    <button id="abc">点击我</button>
+    <button id="wo">点对对对</button>
     <script>
-        $(function(){
-            var wo = {start: 110};
-            $(this).keydown(wo, function(event){
-                console.log(event);
-            })
-        })    
+       $(function(){
+           $("#abc").click(function(){
+               $("p").fadeTo(2000, 0.3);
+           })
+       })
     </script>
 </body>
 </html>
