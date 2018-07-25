@@ -94,7 +94,7 @@ $(fucntion(){
 关于:和[]这两个符号的理解  
 :可以理解为种类的意思,如:p:first,p的种类为第一个.  
 []很自然的可以理解为属性的意思,如:[href]选取所有带href属性的元素.
-```
+```  
 |语法|描述|
 |---|---|
 |$("*")|选取所有元素|
@@ -109,7 +109,8 @@ $(fucntion(){
 |$("tr:event")|选取偶数位置的tr元素|
 |$("tr:odd")|选取奇数位置的tr元素|
 ## jQuery事件  
-<span id="event">常用DOM事件</span>
+<span id="event">常用DOM事件</span>  
+
 |鼠标事件|键盘事件|表单事件|文档窗口事件|
 |---|---|---|---|
 |click|keypress|submit|load|
@@ -286,3 +287,34 @@ opacity参数为淡入淡出效果设置的不透明度.
     })
 </script>
 ```
+## jQuery效果-滑动
+滑动方法:
+- slideDown()
+- slideUp()
+- slideToggle()
+  
+**jQuery slideDown()方法**
+> $(selector).slideDown(speed, callback)  
+
+例子:
+``` HTML
+<div style="color: red;">设施显示的画面</div>
+    <div style="color: blue;">这是例外</div>
+    <button id="abc">点击我</button>
+    <button id="wo">点对对对</button>
+    <script>
+       $(function(){
+           $("#abc").click(function(){
+              console.log("ds");
+               $("div").slideDown(2000);
+           })
+       })
+    </script>
+```
+**jQuery slideUp()方法**
+该方法用于向上滑动元素
+> $(selector).slideUp(speed, callback)  
+
+**jQuery slideToggle()方法**
+该方法可以在slideDown()与slideUp()方法之间切换.
+> $(selector).slideToggle(speed, callback)
