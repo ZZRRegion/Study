@@ -318,3 +318,262 @@ opacity参数为淡入淡出效果设置的不透明度.
 **jQuery slideToggle()方法**
 该方法可以在slideDown()与slideUp()方法之间切换.
 > $(selector).slideToggle(speed, callback)
+
+**jQuery 效果-动画**
+jQuery animate()方法用于创建自定义动画.  
+语法:  
+> $(selector).animate({params}, speed, callback);
+
+必须的params参数定义形成动画的css属性.  
+可选的speed参数规定效果的时长.  
+可选的callback参数是动画完成后所执行的函数名称.  
+实例:把div元素往右边移动250像素  
+``` HTML
+<body>
+<button>开始动画</button>
+<p>默认情况下，所有的 HTML 元素有一个静态的位置，且是不可移动的。 
+如果需要改变为，我们需要将元素的 position 属性设置为 relative, fixed, 或 absolute!</p>
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+</div>
+
+</body>
+<script>
+    $(function(){
+        $("button").click(function(){
+            $("div").animate({left: '250px'});
+        })
+    })
+</script>
+```
+jQuery animate()操作多个属性  
+``` JS
+$("button").click(function(){
+    $("div").animate({
+        left: '250px',
+        opacity: '0.5',
+        height: '150px',
+        width: '200px'
+    });
+});
+```
+> 可以用animate()方法来操作所有css属性,但是必须使用Camel标记法书写所有的属性名,比如,必须使用paddingLeft而不是padding-left.等
+> 也可以使用相对值  
+``` JS
+$("button").click(function(){
+    $("div").animate({
+        left: '250px',
+        height: '+=150px'
+    };
+});
+```
+**jQuery停止动画**
+jQuery stop()方法用户停止动画或效果,在它们完成之前.  
+stop()方法使用于所有jQuery效果函数,包括滑动,淡入淡出和自定义动画.  
+语法:  
+> $(selector).stop(stopAll, goToEnd);
+可选的stopAll参数规定是否应该清除动画队列.默认是false,即仅停止活动的动画,允许任何排入队列的动画向后指定.  
+可选的goToEnd参数规定是否立即完成当前动画,默认是false.  
+``` JS
+$("#stop").click(function(){
+    $("#panel").stop();
+});
+```
+## jQuery-获取内容和属性  
+获取内容-text(),html()以及val(),attr()和prop()获取属性值
+- text()-设置或返回所选元素的文本内容
+- html()-设置或返回所选元素的内容(包括html标记)  
+- val()-设置或返回表单字段的值  
+``` JS
+$(function(){
+    $("button").click(function(){
+        var text = $("p").text();
+        var html = $("p").html();
+        var val = $("input").val();
+        var value = $("a").attr("href");
+        var my = $("p").prop("flat");
+    })
+})
+```
+*番外*
+> attr和prop的区别
+> 对于HTML元素本身就带有的固有属性,在处理时,使用prop方法.  
+> 对于HTML元素我们自己定义的DOM属性,在处理时,使用attr方法.  
+
+**jQuery-设置内容和属性**
+使用之前的三个相同的方法来设置内容:
+- text()-设置或返回所选元素的文本内容
+- html()-设置或返回所选元素的内容(包括HTML标记)
+- val()-设置或返回表单字段的值
+
+实例:
+``` JS
+$("#btn").click(function(){
+    $("#test1").text("hello world");
+})
+$("#btn").click(function(){
+    $("$test2").html("<b>hello world</b>");
+});
+$("#btn").click(function(){
+    $("#test3").val("Runoob");
+})
+```
+text(),html()以及val()的回调函数  
+回调函数有两个参数:被选元素列表中当前元素的下标,以及原始值,然后以函数新值返回希望使用的字符串.  
+实例:
+``` JS
+$("#btn1").click(function(){
+    $("#test").text(function(i, origText){
+        return "旧文本:" + origText + "就是";
+    })
+})
+```
+设置属性-attr()
+``` JS 
+$("button").click(function(){
+    $("#run").attr("href", "www.baidu.com");
+
+    $("#run2").attr({
+        "href": "www",
+        "title": "标题"
+    });//同时设置多个属性值
+});
+```
+attr()的回调函数
+回调函数有两个参数:被选元素列表中当前元素的下标,以及原始值.然后以函数返回值作为新值.
+``` JS
+$("button").click(function(){
+    $("#run").attr("href", function(i, old){
+        return old + "new";
+    })
+})
+```
+**jQuery-添加元素**
+- append()-在被选元素的结尾插入内容
+- prepend()-在被选元素的开头插入内容
+- after()-在被选元素之后插入内容
+- before()-在被选元素之前插入内容
+
+实例:
+``` JS
+function appendText(){
+	var txt1="<p>文本。</p>";              // 使用 HTML 标签创建文本
+	var txt2=$("<p></p>").text("文本。");  // 使用 jQuery 创建文本
+	var txt3=document.createElement("p");
+	txt3.innerHTML="文本。";               // 使用 DOM 创建文本 text with DOM
+	$("body").append(txt1,txt2,txt3);        // 追加新元素
+}
+```
+**jQuery-删除元素**
+- remove()-删除被选元素(及其子元素)
+- empty()-从被选元素中删除子元素
+
+实例:
+``` JS
+$("#div1").remove();
+$("#div2").empty();
+```
+过滤被删除的元素  
+``` JS
+$("p").remove(".italic");
+```
+**jQuery-获取并设置CSS类**
+- addClass()-向被选元素添加一个或多个类
+- removeClass()-从被选元素删除一个或多个类
+- toggleClass()-对被选元素进行添加/删除类的切换操作
+- css()-设置或返回样式属性
+
+``` JS
+$("button").click(function(){
+    $("h1,h2,p").addClass("blue");
+    $("div").addClass("important");
+    $("div").addClass("blue test");//添加多个类  
+    $("div").removeClass("blue");
+    $("div").toggleClass("blue");
+});
+```
+**jQuery css()方法**
+``` JS
+var color = $("p").css("background-color");
+//获取样式值  
+$("p").css("background-color", "yellow");
+//设置值  
+$("p").css({
+    "background-color":"yellow",
+    "font-size": "200%"
+});
+//设置多个样式值
+```
+**jQuery尺寸**
+- width()
+- height()
+- innerWidth()
+- innderHeight()
+- outerWidth()
+- outerHeight()
+
+
+![jQuery尺寸](http://www.runoob.com/images/img_jquerydim.gif)
+
+## jQuery-AJAX
+AJAX=异步JavaScript和XML.  
+简短的说,在不重载整个网页的情况下,AJAX通过后台加载数据,并在网页上进行显示.  
+**jQuery load()方法**
+> $(selector).load(URL, data, callback);
+
+必须的URL参数规定希望加载的URL.  
+可选的data参数规定与请求一同发送的查询字符串键值对集合.  
+可选的callback参数是load()方法完成后执行的函数名称.
+``` JS 
+$("input").click(function(){
+    $("p").load("/Home/Test");
+})
+```
+可选的callback参数规定当load()方法完成后索要允许的回调函数.回调函数可以设置不同的参数:  
+- responseTxt -包含调用成功时的结果内容
+- statusTxt -包含调用的状态 
+- xhr -包含XMLHttpRequest对象
+
+``` JS
+$("button").click(function(){
+    $("div").load("/Home/Test", function(res, status, xhr){
+        console.log(res);
+        console.log(status);
+        console.log(xhr);
+    })
+})
+```
+## jQuery -AJAX get()和post()方法
+> $.get(URL, callback);
+
+必须的URL参数规定请求的URL.  
+可选的callback参数是请求成功后所执行的函数名.  
+``` JS
+$("button").click(function(){
+    $.get("/Home/Test", function(data, status){
+        console.log(data);
+        console.log(status);
+    })
+})
+```
+> $.post(URL, data, callback)
+
+必须的URL参数规定请求的URL.  
+可选的data参数固定请求发送的数据.  
+可选的callback参数是请求成功后所执行的函数名.  
+``` JS 
+$("button").click(function(){
+    $.post("/Home/Test",
+    {
+        name:'这种人',
+        pwd: 123444
+    }, function(data, status){
+        console.log(data);
+        console.log(status);
+    });
+})
+```
+``` JS
+$.getJson("/Home/TT", function(data){
+console.log(data);
+});
+```

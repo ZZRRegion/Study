@@ -6,23 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-    <style>
-        div {
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <div style="color: red;">设施显示的画面</div>
+    <div style="color: red; position: relative;">设施显示的画面</div>
     <div style="color: blue;">这是例外</div>
+    <input type="text" id="wo">
+    <input type="text" id="wo">
     <button id="abc">点击我</button>
     <button id="wo">点对对对</button>
     <script>
        $(function(){
            $("#abc").click(function(){
-              console.log("ds");
-               $("div").slideDown(2000);
+            $("div").load("/Home/text");
            })
+           
        })
     </script>
 </body>
