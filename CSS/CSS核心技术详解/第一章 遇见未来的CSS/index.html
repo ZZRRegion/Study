@@ -6,8 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="index.css" rel="stylesheet">
+    <style>
+        .disable{
+            pointer-events: none;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>回来了</h1>
+    <input type="button" id="btn" value="点击">
+    <script>
+        var btn = document.getElementById("btn");
+        btn.onclick = function(){
+            btn.classList.add("disable");
+            setTimeout(() => {
+                btn.classList.remove("disable");
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

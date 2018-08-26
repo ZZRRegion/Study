@@ -5,22 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <style>
+       .box {
+           width: 50px;
+           height: 50px;
+           color: #000;
+           border: 1px solid;
+           border-radius: 100%;
+           outline: 10px solid;
+           outline-offset: -26px;
+           cursor: pointer;
+       }
+    </style>
 </head>
 <body>
-    <div style="color: red; position: relative;">设施显示的画面</div>
-    <div style="color: blue;">这是例外</div>
-    <input type="text" id="wo">
-    <input type="text" id="wo">
-    <button id="abc">点击我</button>
-    <button id="wo">点对对对</button>
-    <script>
-       $(function(){
-           $("#abc").click(function(){
-            $("div").load("/Home/text");
-           })
-           
-       })
-    </script>
+    <div class="box"></div>
+    <div>测试</div>
+    <embed src="http://www.xiami.com/widget/0_1770124689/singlePlayer.swf"
+    type="application/x-shockwave-flash"
+    width="257"
+    height="33"
+    wmode="transparent">
+   </embed>
 </body>
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form class="cmxform" id="commentForm" method="GET" action="">
+            <fieldset>
+                <legend>输入</legend>
+                <input id="cname" name="name" minlength="2" type="text" required>
+            </fieldset>
+        </form>
+    </div>
+    <script>
+        $.validator.setDefaults({
+            submitHandler: function(){
+                alert("提交事件");
+            }
+        })
+        $().ready(function(){
+            $("#commentForm").validate();
+        })
+    </script>
+</body>
+</html>

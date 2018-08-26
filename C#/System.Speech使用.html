@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>使用微软语音库</h1>
+        <p>使用微软语音库可以很快速的制作一个小应用,比如一个唐诗的朗诵工具.本示例也是使用微软语音库,制作了一个唐诗宋词朗诵的应用,仅供加深学习印象</p>
+        <p>首先是要引入System.Speech库</p>
+        <p>然后using System.Speech.Synthesis;</p>
+        <p>此后就可以使用SpeechSynthesizer实例对象来朗诵了</p>
+        <p>主要代码:</p>
+        <pre style="background-color: azure;">
+                using System;
+                using System.Collections.Generic;
+                using System.ComponentModel;
+                using System.Data;
+                using System.Drawing;
+                using System.Linq;
+                using System.Text;
+                using System.Threading.Tasks;
+                using System.Windows.Forms;
+                using System.IO;
+                using Newtonsoft.Json.Linq;
+                using Newtonsoft.Json;
+                using System.Speech.Synthesis;
+                
+                namespace StdioTangShi
+                {
+                    public partial class FrmMain : Form
+                    {
+                        private string song => @"chinese-poetry-master\json\authors.song.json";
+                        private string tang => @"chinese-poetry-master\json\authors.tang.json";
+                        private List<ShiModel> shiModels = new List<ShiModel>();
+                        public FrmMain()
+                        {
+                            InitializeComponent();
+                        }
+                
+                        private void btnSong_Click(object sender, EventArgs e)
+                        {
+                            FrmAuthors frmAuthors = new FrmAuthors();
+                            frmAuthors.AuthorFileName = this.song;
+                            if(frmAuthors.ShowDialog(this) == DialogResult.OK)
+                            {
+                
+                            }
+                        }
+                
+                        private void btnTang_Click(object sender, EventArgs e)
+                        {
+                            FrmAuthors frmAuthors = new FrmAuthors();
+                            frmAuthors.AuthorFileName = this.tang;
+                            if (frmAuthors.ShowDialog(this) == DialogResult.OK)
+                            {
+                
+                            }
+                        }
+                
+                        private void FrmMain_Load(object sender, EventArgs e)
+                        {
+                            Task task = Task.Run(() => {
+                                this.LoadContent();
+                            });
+                            task.Wait(500);
+                            this.SetContent(this.shiModels[0]);
+                        }
+                        private void LoadContent()
+                        {
+                            List<string> lst = new List<string>()
+                            {
+                                "authors.song.json",
+                                "authors.tang.json",
+                                "poet.song.0.json",
+                                "表面结构字.json"
+                            };
+                            string path = @"chinese-poetry-master\json";
+                            foreach (string fileName in Directory.GetFiles(path))
+                            {
+                                if (lst.Contains(Path.GetFileName(fileName)))
+                                    continue;
+                                string content = File.ReadAllText(fileName);
+                                JArray jArray = JArray.Parse(content);
+                                foreach(JToken jitem in jArray)
+                                {
+                                    ShiModel shiModel = JsonConvert.DeserializeObject<ShiModel>(jitem.ToString());
+                                    this.shiModels.Add(shiModel);
+                                }
+                            }
+                        }
+                        private SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer();
+                        private void btnSpeech_Click(object sender, EventArgs e)
+                        {
+                            ShiModel shiModel = this.btnSpeech.Tag as ShiModel;
+                            string content = $"{shiModel.Author}{Environment.NewLine}{shiModel.Title}{Environment.NewLine}{shiModel.GetContent()}";
+                            this.speechSynthesizer.Speak(content);
+                        }
+                        private int index = 1;
+                        private void btnNext_Click(object sender, EventArgs e)
+                        {
+                            ShiModel shiModel = this.shiModels[index++];
+                            this.SetContent(shiModel);
+                        }
+                        private void SetContent(ShiModel shiModel)
+                        {
+                            Action action = () => {
+                                this.btnSpeech.Tag = shiModel;
+                                this.rtbContent.Text = shiModel.GetContent();
+                                this.txtAuthor.Text = shiModel.Author;
+                                this.txtTitle.Text = shiModel.Title;
+                            };
+                            this.Invoke(action);
+                        }
+                        private void Start()
+                        {
+                            Random random = new Random();
+                            while(this.btnRand.Tag != null)
+                            {
+                                int index = random.Next(0, this.shiModels.Count);
+                                ShiModel shiModel = this.shiModels[index];
+                                this.SetContent(shiModel);
+                                this.btnSpeech_Click(this.btnSpeech, EventArgs.Empty);
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                        }
+                
+                        private void btnRand_Click(object sender, EventArgs e)
+                        {
+                            this.btnRand.Enabled = false;
+                            this.btnRand.Tag = this.btnSpeech.Tag;
+                            Task task = Task.Run(() => {
+                                this.Start();
+                            });
+                        }
+                    }
+                }
+                    
+        </pre>
+        <p>感谢Github上的大牛分享的唐诗宋词数据<a href="https://github.com/chinese-poetry/chinese-poetry">@chinese-poetry</a></p>
+    </div>
+</body>
+</html>

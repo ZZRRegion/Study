@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="http://unpkg.com/element-ui@1.4.13/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/vee-validate.js"></script>
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/locale/zh_CN.js"></script>
+    <title>Document</title>
+    <style>
+        .main {
+            width: 50%;
+            margin: 10% auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="main">
+            <label>输入框</label>
+            <el-input v-validate ="'required|email'" v-model="myName" name="name"></el-input>
+            <span v-show="errors.has('name')">{{ errors.first('name')}}</span>
+        </div>
+    </div>
+    <script>
+         var Validator = VeeValidate.Validator;
+        //  Vue.use(VeeValidate, {
+        //     locale: 'zh_CN'
+        // });
+        Vue.use(VeeValidate, {
+            locale: 'zh_CN'
+        });
+        var app = new Vue({
+            el: "#app",
+            data: {
+                myName: ''
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>
