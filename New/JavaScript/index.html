@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="index.js"></script>
+    <style>
+        h1 {
+            color: red;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试样式</h1>
+    <h1>测试样式</h1>
+
+    <h1>测试样式</h1>
+    <input type="date" value="2015-07-01">
+    <button onclick="wo()">点击</button>
+    <input id="ni" type="file" multiple>
+</body>
+<script>
+    console.log(window.Blob);
+    var blob = new Blob();
+    console.log(blob);
+    function wo(){
+        for(var i = 0; i < document.getElementById("ni").files.length; i++){
+            var file = document.getElementById("ni").files[i];
+            console.log(file);
+            console.log(file.name);
+            console.log(file.lastModified);
+            console.log(file.lastModifiedDate);
+            console.log(file.size);
+        }
+    }    
+</script>
+</html>

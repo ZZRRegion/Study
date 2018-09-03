@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <style>
+        .wo {
+            color: red;
+        }
+        .ni {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <wo v-bind:message="message"></wo>
+    </div>
+    <script>
+        Vue.component("wo", {
+            template: '<h1>这是自定义组件{{message}}</h1>',
+            props:['message']
+        
+        });
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "消息"
+            }
+        })
+    </script>
+</body>
+</html>

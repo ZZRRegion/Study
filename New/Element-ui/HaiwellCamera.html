@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="http://unpkg.com/element-ui@1.4.13/lib/index.js"></script>
+    <title>Document</title>
+    <style>
+        #code {
+            width: 100%,
+        }
+        #show {
+            background-color:coral;
+        }
+        .el-checkbox__label {
+            font-size: 20px;
+        }
+        .el-input-group__prepend {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <el-dialog title="权限验证"
+        :close-on-click-modal=false 
+        :close-on-press-escape=false  
+        :show-close=false 
+        :visible.sync="dialogVisible"
+        >
+        <el-row :gutter="20">
+            <el-col :span="18">
+                <el-input v-model="pwd" type="password" placeholder="请输入授权码"></el-input>
+            </el-col>
+            <el-col :span="6">
+                <el-button @click="toOk" type="primary">确定</el-button>
+            </el-col>
+        </el-row>
+        </el-dialog>
+        <el-dialog title="摄像头注册确认提示"
+        :close-on-click-modal=false
+        :close-on-press-escape=false
+        :show-close=false
+        :visible="cameraTipVisible">
+            <el-row>
+                <el-col>
+                    <el-input  v-model="camerModel.name" disabled>
+                        <template style="width: 100px;" slot="prepend">名称:</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col>
+                    <el-input v-model="camerModel.model" disabled>
+                        <template slot="prepend">型号:</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col>
+                    <el-input v-model="camerModel.deviceSerial" disabled>
+                        <template slot="prepend">序列号:</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col>
+                    <el-input v-model="camerModel.validateCode" disabled>
+                        <template slot="prepend">验证码:</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+            <br/>
+            <el-row>
+                <el-col :span="12">
+                    <el-button @click="cameraTipOk" style="width: 100%;" type="primary">确定</el-button>
+                </el-col>
+                <el-col :span="12">
+                    <el-button @click="cameraTipCancel" type="info" style="width: 100%;">取消</el-button>
+                </el-col>
+            </el-row>
+        </el-dialog>
+        <div class="header">
+
+        </div>
+        <div class="container" style="width: 60%;margin: 0 auto;">
+            <el-row>
+                <el-col :span="12">
+                    <div id="code">
+                        <el-input v-focus="myfocus" @change="change1" v-model="content" :rows="6" type="textarea" resize="none"></el-input>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div id="action">
+                        <el-checkbox v-model="check" label="开启注册确认提示" ></el-checkbox>
+                        <div style="margin-top: 77px;"></div>
+                        <el-button @click="clear" type="primary">清空内容</el-button>
+                        <el-button type="primary">帮助</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+            <div id="show">
+                <ol id="list2">
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script>
+        Vue.directive("focus", function(el){
+            el.focus();
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                pwd: '',
+                dialogVisible: true,
+                cameraTipVisible: false,
+                check: true,
+                tipValue: true,
+                content: '',
+                token: '110',
+                myfocus: true,
+                camerModel:{
+                    name: 'ys7',
+                    deviceSerial: '454784545',
+                    validateCode: 'sfsdfs',
+                    model: 'sdfsfsf'
+                }
+
+            },
+            methods: {
+                cameraTipOk: function(){
+                    this.tipValue = true;
+                    this.cameraTipVisible = false;
+                },
+                cameraTipCancel: function(){
+                    this.tipValue = false;
+                    this.cameraTipVisible = false;
+                },
+                toOk: function(){
+                    var data = {
+                        loginName:'0123456789',
+                        loginPwd: this.pwd,
+                        terminalUUID:'adminLogin',
+                        countryCode:'86',
+                        terminalType:'1',
+                        terminalName:'PC',
+                    }
+                    var chat = this;
+                    $.post("http://cloud.haiwell.com/api/user/login", data, function(dat, status){
+                        if(dat.result != null)
+                        {
+                            chat.token = dat.result.token;
+                            chat.dialogVisible = false;
+                        }else{
+                            chat.$message.error("授权失败，请重试!" + "[code:" + dat.error.code + ",message:" + dat.error.message + "]");
+                        }
+                    })
+                },
+                change1: function(val){
+                   if(val.indexOf("\n\n") > 0){
+                        var values = val.split("\n");
+                        var array = new Array();
+                        for(var i = 0; i < values.length; i++){
+                            if(values[i] != '')
+                                array.push(values[i]);
+                        }
+                        if(array.length != 4){
+                            this.$alert("输入格式错误！");
+                            this.content = '';
+                            this.myfocus = true;
+                            return;
+                        }
+                        var data = {
+                            name:array[0],
+                            deviceSerial: array[1],
+                            validateCode: array[2],
+                            model: array[3]
+                        }
+                        var chat = this;
+                        chat.camerModel = data;
+                        if(this.check){
+                            this.cameraTipVisible = true;
+                        }
+                        console.log(this.tipValue);
+                        $.ajax({
+                            type: "POST",
+                            url: "http://cloud.haiwell.com/api/scada/addCameraSerial",
+                            data: data,
+                            contentType: "application/x-www-form-urlencoded",
+                            headers:{
+                                cloudtoken:chat.token
+                            },
+                            success: function(dat, status){
+                                console.log(dat);
+                                chat.$message(JSON.stringify(dat));
+                                var li = $("<li><li>");
+                                li = li.text("序列号：" + data.deviceSerial);
+                                $("#list2").prepend(li);
+                                chat.content = "";
+                            }
+                        })
+                        
+                   }
+                },
+                clear: function(){
+                    this.content = '';
+                }
+                
+            }
+        })
+    </script>
+</body>
+</html>

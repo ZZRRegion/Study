@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.js"></script>
+    <title>HMI管理器部分代码简化建议</title>
+    <style>
+        
+        img {
+            width: 400px;
+            height: 200px;
+        }
+        .red {
+            color: blue;
+        }
+        pre {
+            background-color:darkgray;
+        }
+        .main {
+            width: 60%;
+            margin: 0 auto;
+        }
+        li p:first-child {
+            font-weight: bold;
+            font-size: 110%;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h5>这是我在查看HMI管理器部分代码时发现的一些问题，以及可以简化代码编写，降低代码复杂度的建议。review 2018-08-15</h5>
+        <ol>
+            <li>
+                <p>命名不规范以及不使用的代码仍然保留</p>
+                <p>例子：</p>
+                <img src="命名不规范以及不使用的代码还留着.png">
+                <br/>
+                <p>原因：</p>
+                <ul>
+                    <li>长期不用的代码，会增加同事阅读和维护的负担，长期以往，这绝对是软件维护的灾难</li>
+                    <li>我们有源码控制(SVN,Git)已经提供了历史追踪的功能</li>
+                </ul>
+            </li>
+            <li>
+                <p>大量的使用ref关键字</p>
+                <p>例子：</p>
+                <p>实现代码如下，使用ref修饰了strList形参
+                    <pre>
+                        /// <summary>
+                        /// 获取历史数据库列表，不包括当前正在使用的历史文件
+                        /// <param name="strList">返回的列表字符串</param>
+                        /// </summary>
+                        /// <returns></returns>
+                        public static bool GetHistoryList(string macCode, Dictionary<string, string> dicForm, 
+                            Dictionary<string, string> dicHeader, <span class="red">ref string strList</span>)
+                        { 
+                            bool isSuccess = false;
+                            try
+                            {
+                                //string url = string.Format("http://192.168.70.189/api/selectHisRecord/" /*CloudAPIInfo.SelectHisRecord*/, macCode);
+                                string url = string.Format(CloudAPIInfo.SelectHisRecord, macCode);
+                
+                                JObject json = HttpHelper.PostKeyValue(url, dicForm, dicHeader, Timeout);
+                                if(json != null && json["file"] != null)
+                                {
+                                    strList = json["file"] == null ? "" : json["file"].ToString();
+                                    isSuccess = true;
+                                }
+                                else
+                                {
+                                    isSuccess = false;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                isSuccess = false;
+                            }
+                            return isSuccess;
+                        }
+                    </pre>
+                </p>
+                <p>这是使用代码部分</p>
+                <pre>
+                        /// <summary>
+                        /// 获取历史文件列表
+                        /// </summary>
+                        /// <returns>返回null 表示获取失败 ; 空字符串表示没有记录 ；非空字符串表示有记录</returns>
+                        public string GetFiles(MachineInfo machine)
+                        {
+                            Dictionary<string, string> dicField = new Dictionary<string, string>(); //要发送的字段
+                            dicField.Add("fileType", "project");
+                            dicField = HttpInterface.GetSign(machine, dicField);
+                            string strList = "";
+                            <span class="red">bool b = HttpInterface.GetHistoryList(machine.machine_code, dicField, null, ref strList);</span>
+                            if (b == false)
+                            {
+                                strList = null;
+                            }
+                            return strList;
+                        }
+                </pre>
+                <p>可以看到该部分的实现逻辑是获取文件列表，这个实现部分其实根本就不需要使用ref就能实现，只要将GetHistoryList函数的返回值类型为string，返回的就是历史文件列表字符串，如果不为null或空那么就是有返回值，否则就是没有</p>
+                <p>原因：</p>
+                <ul>
+                    <li>加上ref是明确标明是有可能要更改参数值的，并且统一值类型和引用类型的引用传递</li>
+                    <li>例子中，本就不需要ref就能实现，加了ref会增加复杂度</li>
+                </ul>
+            </li>
+            <li>
+                <p>大量使用委托，而不使用事件进行封装</p>
+                <p>例子：</p>
+                <pre>
+                    /// <summary>
+                    /// 获取HMI的版本
+                    /// jiyangfan  2018-4-9
+                    /// </summary>
+                    public class GetHMIVersionBLL
+                    {
+                        #region 事件通知
+                        /// <summary>
+                        /// 通知界面更新时间是否成功
+                        /// </summary>
+                        /// <param name="isSuccess">如果返回true，则返回硬件版本和软件版本，否则返回false</param>
+                        /// <param name="softVersion">软件版本</param>
+                        /// <param name="hardwareVersion">硬件版本</param>
+                        public delegate void NoticeResultDel(bool isSuccess, string softVersion, string hardwareVersion);
+                        /// <summary>
+                        /// 通知界面更新结果
+                        /// </summary>
+                        <span class="red">public NoticeResultDel NoticeResultDelEvent;</span>
+                        #endregion
+                        /// <summary>
+                        /// 获取HMI的版本
+                        /// <param name="machineinfo">当前操作的hmi</param>
+                        /// </summary>
+                        public void GetVersion(MachineInfo machineinfo)
+                        {
+                            Dictionary<string, string> dicForm = HttpInterface.GetSign(machineinfo, null);
+                            CloudHmiInfo model = null;
+                            bool b = HttpInterface.GetHmiInfo(machineinfo.machine_code, dicForm, null, ref model);
+                            if (b == false)
+                            {
+                                <pre class="red">
+                                if (NoticeResultDelEvent != null)
+                                {
+                                    NoticeResultDelEvent(false, "", "");
+                                }
+                                </pre>
+                            }
+                            else
+                            {
+                                string version = model.version;
+                                string hareVersion = model.hardwareVersion;
+                                // HwCommon.MsgBox(temp);
+                                <pre class="red">
+                                if (NoticeResultDelEvent != null)
+                                {
+                                    NoticeResultDelEvent(true, version, hareVersion);
+                                }
+                                </pre>
+                            }
+                        }
+                        /// <summary>
+                        /// 获取版本 2018-6-12 add
+                        /// </summary>
+                        /// <param name="machineinfo"></param>
+                        /// <returns></returns>
+                        public CloudHmiInfo GetVersion2(MachineInfo machineinfo)
+                        {
+                            Dictionary<string, string> dicForm = HttpInterface.GetSign(machineinfo, null);
+                            StringBuilder str = new StringBuilder();
+                            //foreach (KeyValuePair<string, string> item in dicForm)
+                            //{
+                            //    str.AppendLine(item.Key + ":" + item.Value);
+                            //}
+                
+                            CloudHmiInfo model = null;
+                            bool b = HttpInterface.GetHmiInfo(machineinfo.machine_code, dicForm, null, ref model);
+                            return model;
+                        }
+                    }
+                </pre>
+                <p>原因：</p>
+                <ul>
+                    <li>事件是对委托的封装，委托是定义做什么，事件定义什么时候做，这里适合使用事件</li>
+                </ul>
+                <p>执行事件或者委托可以使用简化形式执行</p>
+                <pre>
+                        if (NoticeResultDelEvent != null)
+                        {
+                            NoticeResultDelEvent(false, "", "");
+                        }
+                        <span class="red">this.NoticeResultDelEvent?.Invoke(false, "", "");</span>
+                </pre>
+            </li>
+            <li>
+                <p>使用LINQ简化查找</p>
+                <p>例子：</p>
+                <pre>
+                    MachineInfo m = null;
+                    for (int j = 0; j < _lstMachine.Count; j++)
+                    {
+                        if (_lstMachine[j].machine_code == macCode)
+                        {
+                            m = _lstMachine[j];
+                            break;
+                        }
+                    }
+                    if (m == null)
+                    {
+                        return;
+                    }
+                </pre>
+                <p>改为使用LINQ查找</p>
+                <pre>
+                        <span class="red"> MachineInfo info = this._lstMachine.FirstOrDefault(item => item.machine_code == macCode);</span>MachineInfo info = this._lstMachine.FirstOrDefault(item => item.machine_code == macCode);
+                </pre>
+            </li>
+        </ol>
+    </div>
+</body>
+</html>

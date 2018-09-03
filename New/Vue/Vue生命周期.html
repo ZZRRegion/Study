@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{data}}
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                data: "这是测试",
+                info: "none"
+            },
+            beforeCreate() {
+                console.log("创建前=======");
+                console.log(this.data);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+            created() {
+                console.log("已创建=========");
+                console.log(this.data);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+            beforeMount() {
+                console.log("mount之前==========");
+                console.log(this.info);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+            mounted() {
+                console.log("mounted======");
+                console.log(this.info);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+            beforeUpdate() {
+                console.log("更新前=========");
+                console.log("这是一条分割线==========");
+            },
+            updated() {
+                console.log("更新完成=======");
+                console.log("这是一条分割线==========");
+            },
+            beforeDestroy() {
+                console.log("销毁前========");
+                console.log(this.info);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+            destroyed() {
+                console.log("已销毁=========");
+                console.log(this.info);
+                console.log(this.$el);
+                console.log("这是一条分割线==========");
+            },
+        })
+    </script>
+</body>
+</html>

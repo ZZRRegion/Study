@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="http://unpkg.com/element-ui@1.4.13/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/vee-validate.js"></script>
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/locale/zh_CN.js"></script>
+    <title>Document</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;            
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .main {
+            background-color: #64b1e3;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        #loginWarp {
+            width: 40%;
+            height: 35%;
+            background-color: #fff;;
+            margin: 10% auto;
+        }
+        .cloudImg {
+            width: 20%;
+            height: 10%;
+            position: absolute;
+            top: -0px;
+        }
+        .cloudName {
+            position: absolute;
+            top: -105px;
+            left: 120px;
+            color: #fafbfe;
+        }
+        .loginMemo {
+            position: absolute;
+            top: -200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="main">
+            
+            <div>
+                <el-input @focus="cl"></el-input>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+                cl: function(){
+                   console.log("hell");
+                   
+                }
+            }
+        })
+    </script>
+</body>
+</html>
