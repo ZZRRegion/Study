@@ -21,13 +21,14 @@
     </style>
 </head>
 <body>
-    <div class="box"></div>
     <div>测试</div>
-    <embed src="http://www.xiami.com/widget/0_1770124689/singlePlayer.swf"
-    type="application/x-shockwave-flash"
-    width="257"
-    height="33"
-    wmode="transparent">
-   </embed>
+    <script>
+        $(function(){
+            var array = new Array();
+            console.log(array);
+            console.log($.isArray(array));
+            console.log($.isPlainObject());
+        })
+    </script>
 </body>
 </html>
