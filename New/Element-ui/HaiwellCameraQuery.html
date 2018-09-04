@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+ 
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-header style="background: grey; text-align: center; vertical-align: auto;" height="80px">
+                <h2>摄像头数据查询</h2>
+            </el-header>
+            <el-container>
+                <el-aside width="260px" >
+                        <div>
+                            <fieldset style="border-color: #E2ded6;border-width: 4px;border-style: solid;">
+                                <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                                    <span>第一种方式：按时间区间查询</span>
+                                </legend>
+                                <el-row>
+                                    <el-col :span="2">
+                                        <el-tag type="success">起始时间：</el-tag>
+                                    </el-col>
+                                   
+                                </el-row>
+                                <el-row>
+                                    <el-col>
+                                        <div>
+                                            <el-date-picker
+                                                v-model="value1"
+                                                type="date"
+                                                placeholder="选择日期">
+                                            </el-date-picker>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-tag type="success">终止时间：</el-tag>
+                                </el-row>
+                                <el-row>
+                                    <el-col>
+                                        <div>
+                                            <el-date-picker
+                                                v-model="value1"
+                                                type="date"
+                                                placeholder="选择日期">
+                                            </el-date-picker>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="12">
+                                        <el-button style="width: 220px;" type="primary">立即查询</el-button>
+                                    </el-col>
+                                </el-row>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset style="border-color: #E2ded6;border-width: 4px;border-style: solid;">
+                                    <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                                        <span>第二种方式:按序列号查询</span>
+                                    </legend>
+                                    <el-row>
+                                        <el-col>
+                                            <span>序列号：</span>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-input style="width: 220px;"></el-input>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-button style="width: 220px;" type="primary">立即查询</el-button>
+                                        </el-col>
+                                    </el-row>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset style="border-color: #E2ded6;border-width: 4px;border-style: solid;">
+                                    <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                                        <span>第三种方式：多序列号查询</span>
+                                    </legend>
+                                    <el-row>
+                                        <el-col>
+                                            <span>文件路径：</span>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-upload
+                                            :file-list="fileList"
+                                            :limit="3"
+                                            action=“”
+                                            >
+                                                <el-button size="small" type="primary">选择文件</el-button>
+                                            </el-upload>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-input style="width: 220px;"></el-input>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-button style="width: 220px" type="primary">选择</el-button>
+                                        </el-col>
+                                    </el-row>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset style="border-color: #E2ded6;border-width: 4px;border-style: solid;">
+                                    <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                                        <span>第四种方式：日报表</span>
+                                    </legend>
+                                    <el-row>
+                                        <el-col>
+                                            <div class="block">
+                                                <span class="demonstration">选择日期</span>
+                                                <el-date-picker
+                                                  v-model="value1"
+                                                  type="date"
+                                                  placeholder="选择日期">
+                                                </el-date-picker>
+                                              </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col>
+                                            <el-button style="width: 220px;" @click="dialogTableVisible=true" type="primary">立即查询</el-button>
+                                        </el-col>
+                                    </el-row>
+                            </fieldset>
+                            <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+                                <el-table :data="gridData">
+                                  <el-table-column property="date" label="日期" width="150"></el-table-column>
+                                  <el-table-column property="name" label="姓名" width="200"></el-table-column>
+                                  <el-table-column property="address" label="地址"></el-table-column>
+                                </el-table>
+                              </el-dialog>
+                        </div>
+                    </el-aside>
+                <el-main>
+                   <div>
+                    <el-table height="627px"
+                    :data="tableData3"
+                    height="250"
+                    border
+                    style="width: 100%">
+                    <el-table-column
+                      prop="date"
+                      label="日期"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="姓名"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="地址">
+                    </el-table-column>
+                  </el-table>
+                   </div>
+                </el-main>
+            </el-container>
+            
+            <el-footer height="50px" style="text-align: center; background-color: gray;">
+                <h3>时间：{{dateTime}}</span>
+            </el-footer>
+        </el-container>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            created:function(){
+                //this.curTime();
+            },
+            data: {
+                fileList: [],
+                dialogTableVisible: false,
+                dateTime: '',
+                value1: '',
+                tableData3: [{
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-07',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        },{
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        },{
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }]
+                ,gridData: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }],
+            },
+            methods: {
+                curTime: function(){
+                    var date = new Date();
+                    this.dateTime = date.toString();
+                    setInterval(this.curTime, 1000);
+                },
+                
+            }
+        })
+    </script>
+</body>
+</html>
