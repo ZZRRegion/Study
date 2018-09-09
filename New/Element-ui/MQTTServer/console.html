@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="../element-uiindex.css" rel="stylesheet">
+    <script src="../vue_2.5.17-beta.0_vue.js"></script>
+    <script src="../element-ui_2.4.0_index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div style="margin-left: 20%;">
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                    <el-tab-pane label="Virtual Host" name="Hosts">
+                        <el-row>
+                            <el-col :span="4">
+                                <span>Virtual Host:</span>
+                            </el-col>
+                            <el-col>
+                                <el-select clearable v-model="value2" placeholder="选择">
+                                   <el-option v-for="item in options"
+                                   :key="item.value"
+                                   :label="item.label"
+                                   :value="item.value">
+
+                                   </el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="Connectors" name="Connectors">
+                        <el-row>
+                            <el-col :span="2">
+                                <span>Connector:</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <el-select clearable v-model="value2" placeholder="惦">
+                                    <el-option v-for="item in options2"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value"></el-option>
+                                </el-select>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-switch v-model="value3" active-text="停止"
+                                inactive-text="开始"></el-switch>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="Operating Environment" name="Environment"></el-tab-pane>
+                    <el-tab-pane label="Configuration" name="Configuration"></el-tab-pane>
+            </el-tabs>
+        </div>
+        
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                activeName: "first",
+                value2: '',
+                value3: true,
+                options: [{
+                    value: '选项1',
+                    label: '黄金糕'
+                }],
+                options2: [{
+                    value: 'tcp',
+                    label: 'tcp'
+                },{
+                    value: 'ws',
+                    label: 'ws'
+                },{
+                    value:'wss',
+                    label: 'wss'
+                }]
+            },
+            methods: {
+                handleClick: function(tab, event){
+                    console.log(tab);
+                    console.log(event);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

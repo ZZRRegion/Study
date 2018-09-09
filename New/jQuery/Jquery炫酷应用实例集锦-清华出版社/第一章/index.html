@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../jquery_3.3.1_jquery.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <p style="text-align: center; margin-top: 15px;">
+        <input type="button" class="input" value="弹入弹出" id="my" >
+        <input class="input" type="button" value="隐藏" id="myout" style="width: 190px;">
+    </p>
+    <div style="text-align: center;">
+        <iframe src="http://www.baidu.com" style="width: 400px; height: 400px; border: 2px solid gray"></iframe>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#my").click(function(){
+                $("iframe").slideToggle("slow");
+            })
+        })
+    </script>
+</body>
+</html>
