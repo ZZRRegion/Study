@@ -9,7 +9,7 @@
     <script src="../element-ui_2.4.0_index.js"></script>
     <title>Document</title>
 </head>
-<body>
+<body style="background-image: url(1.jpg)">
     <div id="app">
         <div style="margin-left: 20%;">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
@@ -35,7 +35,7 @@
                             <el-col :span="2">
                                 <span>Connector:</span>
                             </el-col>
-                            <el-col :span="6">
+                            <el-col :span="4">
                                 <el-select clearable v-model="value2" placeholder="惦">
                                     <el-option v-for="item in options2"
                                     :key="item.value"
@@ -49,7 +49,38 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
-                    <el-tab-pane label="Operating Environment" name="Environment"></el-tab-pane>
+                    <el-tab-pane label="Operating Environment" name="Environment">
+                        <el-form style="margin-left: 20%;">
+                            <el-form-item>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-input placeholder="手机号码"></el-input>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-row>
+                                    <el-col :span="6">
+                                         <el-input placeholder="登录密码"></el-input>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-input placeholder="验证码："></el-input>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-button style="width: 100%;" type="primary">提交注册</el-button>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
                     <el-tab-pane label="Configuration" name="Configuration"></el-tab-pane>
             </el-tabs>
         </div>
