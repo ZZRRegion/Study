@@ -2,27 +2,23 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"strings"
+	"io/ioutil"
+	"os/exec"
 )
 
-func sayhelloName(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	fmt.Println(r.Form)
-	fmt.Println("path", r.URL.Path)
-	fmt.Println("scheme", r.URL.Scheme)
-	fmt.Println(r.Form["url_long"])
-	for k, v := range r.Form {
-		fmt.Println("key", k)
-		fmt.Println("val:", strings.Join(v, ""))
-	}
-	fmt.Fprintf(w, "hello world!sfs时发生地方")
-}
 func main() {
-	http.HandleFunc("/", sayhelloName)
-	err := http.ListenAndServe(":9000", nil)
+	cmd := exec.Command("Test.exe", "hello")
+	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		log.Fatal("ListenAndServer:", err)
+		fmt.Println(err)
 	}
+	defer stdout.Close()
+	if err := cmd.Start(); err != nil {
+		fmt.Println(err)
+	}
+	opBytes, err := ioutil.ReadAll(stdout)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(opBytes))
 }
