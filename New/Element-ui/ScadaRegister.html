@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- <script src="http://unpkg.com/element-ui@1.4.13/lib/index.js"></script> -->
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/vee-validate.js"></script>
+    <script src="https://cdn.bootcss.com/vee-validate/2.0.9/locale/zh_CN.js"></script>
+    <script src="cn.js"></script>
+    <script src="address.js"></script>
+    <title>Document</title>
+    <style>
+        .main {
+            width: 40%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="main">
+            <el-dialog title="地址" :visible.sync="addressVisible">
+                <el-cascader 
+                :options="options"
+                v-model="selectOption"
+                @change="handleChange">
+
+                </el-cascader>
+            </el-dialog>
+            <el-container>
+                <el-header>
+                    <h2>{{lang.title}}</h2>
+                </el-header>
+                <el-main>
+                    <el-input @focus="addressSelect" v-model="scada.address" placeholder="请输入地址"></el-input>
+                </el-main>
+            </el-container>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                lang: cn,
+                selectOption: '',
+                addressVisible: false,
+                addressPosition: address,
+                scada:{
+                    address:''
+                },
+                options: address
+            },
+            methods: {
+                handleChange: function(val){
+                    console.log(val);
+                    this.scada.address = JSON.stringify(val);
+                },
+                addressSelect: function(){
+                   
+                    this.addressVisible = true;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

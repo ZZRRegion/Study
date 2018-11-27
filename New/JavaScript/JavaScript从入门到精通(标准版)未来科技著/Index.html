@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <style>
+      body {
+        background-color: rgb(113, 157, 189);
+      }
+      * {
+          margin: 0;
+      }
+      h1 {
+          text-align: center;
+          background-color: #26a2ff;
+          color: #fff;
+      }
+      p i {
+          color: red;
+      }
+      .main{
+        width: 50%; 
+        margin: 0 auto; ;
+      }
+  </style>
+</head>
+<body>
+    <div id="app">
+        <div v-bind:class="{main:isPC}" style="background-color: rgb(242, 244, 245)">
+            <el-container>
+                <el-header style="height: auto">
+                    <h1>组态注册</h1>
+                </el-header>
+                <el-main>
+                    <p>为了更好的为您提供服务，需要您花几分钟时间填写以下信息，您所填写的信息我们会有专人进行确认和回复，请务必填写真实信息，感谢您的配合！在工作时间内，我们会在24个小时内给予回复。</p>
+                    <div>
+                        <p>邮箱<i>*</i><i id="emailTip"></i>(请确保该邮箱准确无误,提交成功后我们会在24个小时内以邮件形式给予回复!)</p>
+                        <el-input v-model="input" placeholder="邮箱"></el-input>
+                    </div>
+                    <div>
+                        <p>您是<i>*</i></p>
+                        <br/>
+                        <el-radio-group v-model="t1">
+                            <el-radio style="display: block; margin-bottom: 10px;" label="Develop">项目施工方</el-radio>
+                            <el-radio style="margin: 0;" lable="User">项目使用方</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <br/>
+                    <div>
+                        <p>您的信息</p>
+                        <br/>
+                        <p>姓名<i>*</i></p>
+                        <el-input v-model="input"></el-input>
+                        <p>手机<i>*</i></p>
+                        <el-input></el-input>
+                        <p>单位<i>*</i></p>
+                        <el-input></el-input>
+                        <p>电话</p>
+                        <el-input></el-input>
+                        <p>QQ</p>
+                        <el-input></el-input>
+                        <p>地区<i>*</i></p>
+                        <el-input></el-input>
+                    </div>
+                    <br/>
+                    <div>
+                        <p>项目信息</p>
+                        <br/>
+                        <p>项目名称<i>*</i></p>
+                        <el-input></el-input>
+                        <p>项目使用单位<i>*</i></p>
+                        <el-input></el-input>
+                        <p>项目联系人</p>
+                        <el-input></el-input>
+                        <p>联系人手机：</p>
+                        <el-input></el-input>
+                        <p>联系人电话：</p>
+                        <el-input></el-input>
+                        <p>联系人邮箱：</p>
+                        <el-input></el-input>
+                        <p>联系人QQ：</p>
+                        <el-input></el-input>
+                    </div>
+                    <br/>
+                    <div>
+                        <p>注册信息</p>
+                        <br/>
+                        <p>机器码<i>*</i></p>
+                        <el-input :disabled="mc"></el-input>
+                        <p>注册计算机用途</p>
+                        <br/>
+                        <el-radio-group v-model="t2">
+                            <el-radio style="display: block; margin-bottom: 10px;" lable="1">开发组态项目</el-radio>
+                            <el-radio style="margin: 0;" lable="2">运行组态工程</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <br/>
+                    <el-button style="width: 100%;" type="primary">提交</el-button>
+                    <div>{{info}}</div>
+                </el-main>
+            </el-container>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            created(){
+                var userAgentInfo = navigator.userAgent;
+                this.info = userAgentInfo;
+                var agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+                var flag = true;
+                for(var i = 0; i < agents.length; i++){
+                    if(userAgentInfo.indexOf(agents[i]) >= 0){
+                        flag = false;
+                        break;
+                    }
+                }
+                this.isPC = flag;
+            },
+            data: {
+                t1:'',
+                t2: '',
+                input: "",
+                isPC: true,
+                info: '',
+                mc: false
+            },
+            methods:{
+                my: function(val){
+                    console.log(val);
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

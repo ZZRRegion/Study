@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>测试</h1>
+    </div>
+    <script>
+        window.navigator.userAgent = "hello";
+        function My(){
+            this.name = "zzr";
+            this.age = "12";
+            this.toString = function(){
+                return this.name + this.age;
+            }
+        }
+        var a = new My();
+        console.log(a);
+    </script>
+</body>
+</html>
