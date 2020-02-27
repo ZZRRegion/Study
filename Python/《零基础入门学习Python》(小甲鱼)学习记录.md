@@ -1,5 +1,75 @@
 # 《零基础入门学习Python》(小甲鱼)学习记录
 
+### 2月27日
+
+1. p4小插曲之变量和字符串
+
+   [视频](https://www.bilibili.com/video/av27789609?p=4)
+
+   > 变量就是社会现实中的名字
+
+   测试题：
+
+   0. 以下哪个变量的命名不正确？为什么？
+
+      (A)MM_520 (B)_MM520_ (C)520_MM (D)_520_MM
+
+      答：C，数字不能作为变量名的开头
+
+   1. 在不上机的情况下，以下代码你能猜到屏幕会打印什么内容吗？
+
+      答：‘小甲鱼'
+
+   2. 在不上机的情况下，以下代码你能猜到屏幕会打印什么内容吗？
+
+      答：’小甲鱼'
+
+   3. 在不上机的情况下，以下代码你能猜到屏幕会打印什么内容吗？
+
+      答：‘520’
+
+   4. 除了使用反斜杠(\)进行字符转义，还有什么方法可以打印:Let's go!这个字符串？
+
+      答：print(r"Let's go!")
+
+   5. 答：
+
+      ```python
+      DaysPerYear = 365
+      HoursPerDay = 24
+      MinutesPerHour = 60
+      SecondsPerMinute = 60
+      
+      totals = DaysPerYear * HoursPerDay * MinutesPerHour * SecondsPerMinute
+      print(totals)
+      ```
+
+      
+
+2. P5改进我们的小游戏
+
+   > random模块
+
+3. P6闲聊之Python的数据类型
+
+   [视频](https://www.bilibili.com/video/av27789609?p=6)
+
+   整型、布尔型、浮点型、e记法
+
+   int()、str()、float()
+
+   type查看数据类型
+
+   isinstance(a, b) #判断类型a与b的类型是否一致
+
+   isinstance("sdf", str) # True
+
+   isinstance(110, int) # True
+
+   isinstance(True, bool) # True
+
+   isinstance(2.23, float) # True
+
 ### 2月25日
 
 1. 愉快的开始
