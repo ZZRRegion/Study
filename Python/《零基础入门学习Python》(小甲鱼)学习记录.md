@@ -1,5 +1,107 @@
 # 《零基础入门学习Python》(小甲鱼)学习记录
 
+### 2月28日
+
+1. P7Python之常用操作符
+
+   算术操作符：+、-、*、、、%、**、//
+
+   其中**是幂操作，//是取整除数
+
+2. P8了不起的分支和循环1
+
+3. P9了不起的分支和循环2
+
+   x if 条件 else y 
+
+   small = x if x < y else y
+
+   assert断言
+
+   assert(par) par的表达式值为False就自爆
+
+4. P10了不起的分支和循环3
+
+   while 条件:
+
+   ​	循环体
+
+   for 目标 in 表达式:
+
+   ​	循环体
+
+   range([starat,]stop[,step=1])
+
+5. P11列表：一个打了激素的数组1
+
+   一个普通列表
+
+   member = ["小甲鱼", "小布丁", "黑夜", "迷途", "怡景"]
+
+   列表添加元素
+
+   <font color=blue>append()</font>
+
+   append()
+
+   member.append("这种人")
+
+   len(member) #取列表长度
+
+   <font color=blue>extend</font>
+
+   member.extend(["sf", "sdfs"])#添加列表
+
+   <font color=blue>insert(index, p)</font>
+
+   member.insert(0, "sdf")
+
+6. P12列表：一个打了激素的数组2
+
+   从列表删除元素
+
+   <font color=blue>remove</font>
+
+   <font color=blue>del member[0]</font>
+
+   <font color=blue>del member</font>
+
+   <font color=blue>pop()</font>
+
+   弹出最后一个值
+
+   <font color=blue>pop(2)</font>
+
+   弹出指定索引的值
+
+   切片操作
+
+   member[0:2]取左不取右原则
+
+   member[1:]取从下标1开始的全部
+
+   7. P13列表：一个打了激素的数组3
+
+    member = [1, 2, 3]
+
+   <font color=blue>1 in member</font>
+
+   <font color=blue>10 not in member</font>
+
+   <font color=blue>member.count(1)</font>
+
+   .count()表示参数在列表中出现的次数
+
+   <font color=blue>member.index(1)</font>
+
+   .index()找到元素第一次出现的索引
+
+   reverse()翻转列表
+
+   sort()排序
+
+   list = [x * 3 for x in range(10)]
+
 ### 2月27日
 
 1. p4小插曲之变量和字符串
@@ -69,6 +171,22 @@
    isinstance(True, bool) # True
 
    isinstance(2.23, float) # True
+   
+   s为字符串
+   
+   s.isalnum() #所有字符都是数字或者字母
+   
+   s.isalpha() #所有字符都是字母
+   
+   s.isdigit()#所有字符都是数字
+   
+   s.islower()#所有字符都是小写
+   
+   s.isupper()#所有字符都是大写
+   
+   s.istitle()#所有单词都是首字母大写
+   
+   s.isspace()#所有字符都是空白字符
 
 ### 2月25日
 
