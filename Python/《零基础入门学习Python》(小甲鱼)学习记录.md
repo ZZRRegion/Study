@@ -1,5 +1,681 @@
 # 《零基础入门学习Python》(小甲鱼)学习记录
 
+2月29日
+
+1. P14元组：戴上枷锁的列表
+
+   [视频](https://www.bilibili.com/video/av27789609?p=14)
+
+   创建元组
+
+   member = (1, 2, 3) 
+
+   member= 1, 2, 3 
+
+   逗号才是关键
+
+   元组是不能修改的
+
+   元组更新
+
+   temp = (1, 2, 3)
+
+   temp = temp[:2] + (3,) + temp[2:]
+
+2. P15字符串：各种奇葩的内置方法
+
+   capitalize()将字符串的第一个字符改为大写
+
+   casefold()将字符串所有改为小写字母
+
+   center(width)将字符串居中，并使用空格填充至长度width的新字符串
+
+   count(sub[,start[,end]])返回sub在字符串中出现的次数.start和end表示范围
+
+   endswitch(sub[,start[,end]])检查字符串是否以sub子字符串结束
+
+   expandtabs([tabsize=8])把字符串中的tab符号(\t)转换为空格
+
+   find(sub[,start[,end]])检测sub是否包含在字符串中，如果有则返回索引值，否则返回-1
+
+   index(sub[,start[,end]])跟find方法一样，不过如果sub不在string中会产生一个异常
+
+   join(sub)以字符串作为分隔符，插入到sub中所有的字符之间
+
+   lstrip()去掉字符串左边的所有空格
+
+3. P16字符串：格式化
+
+   [视频](https://www.bilibili.com/video/av27789609?p=16)
+
+   "{0} love {1}.{2}".format(2, 3, 4)
+
+   "{0} love {b},{c}".format("1", b = "fishc", c="com")
+
+   "{{0}}".format(2)，打印花括号
+
+   “{0:.1f}{1}".format(23.223, "GB")
+
+   '%c' % 97 格式化
+
+   ‘%s' % "是否" 格式化字符串
+
+   "%d + %d = %d" % (3, 4, 3 + 4) 多参数使用元组
+
+   "%3.22f" % 2.234
+
+   m.n m是显示最小总宽度,n是小数点后的位数
+
+   >"%10.2f" % 2.33
+   >'      2.33'
+   >
+   >不够的填充空格
+
+   >"%#x" % 23
+   >'0x17'
+
+   "%010d" % 2
+   '0000000002'
+
+4. P17 序列！序列！
+
+   列表、元组和字符串的共同点
+
+   都可以通过索引得到每一个元素
+
+   默认索引值总是从0开始
+
+   可以通过分片的方法得到一个范围
+
+   有很多共同的操作符
+
+   max
+
+   min
+
+   sorted(member)
+
+   reversed(member)
+
+   >list(enumerate(numbers))
+   >[(0, 1), (1, 18), (2, 18), (3, 0), (4, -98), (5, 34), (6, 54), (7, 76), (8, 32)]
+
+   >a = [1, 2, 3, 4, 5, 6, 7, 8]
+   >b = [4, 5, 6, 7, 8]
+   >zip(a, b)
+   ><zip object at 0x0000021DF8F1A540>
+   >list(zip(a, b))
+   >[(1, 4), (2, 5), (3, 6), (4, 7), (5, 8)]
+
+5. P18 函数：Python的乐高积木
+
+   def myfirstfunction():
+
+   ​		print("hello world")
+
+   ​		return "OK"
+
+   myfirstfunction()
+
+6. P19 函数：灵活即强大
+
+   def test(*params):
+
+   ​		print("参数长度是：", len(params))
+
+   ​		print("第二个参数是：", params[1])
+
+7. P20 函数：我的地盘听我的
+
+   返回值空：None
+
+8. P21函数：内嵌函数和闭包
+
+   def test():
+
+   ​		global count
+
+   ​		count = 10
+
+   count = 1
+
+   test()
+
+   在函数中使用global声明一下全局变量，则在函数内就可以修改全局变量的值了。
+
+   内嵌函数
+
+   def fun1():
+
+   ​		print("fun1调用")
+
+   ​		def fun2():
+
+   ​				print("fun2调用")
+
+   ​		fun2()
+
+   <font color=blue>nonlocal</font>使用
+
+   def fun1():
+       x = 5
+       def fun2():
+           nonlocal x
+           x *= x
+           return x
+       return fun2()
+   print(fun1())
+
+9. P22函数：lambada表达式
+
+   匿名函数
+
+   c = lambda x,y: x + y
+
+   c(2, 3)
+
+   <font color=blue>filter</font>
+
+   >member = [1, 0, 2, 3]
+   >list(filter(None,member))
+   >[1, 2, 3]
+
+   >>list(filter(lambda x: x > 2,member))
+   >>[3]
+
+   <font color=blue>map</font>
+
+   >>list(map(lambda x: x * 2, member))
+   >>[2, 0, 4, 6]
+
+10. P23函数：递归是神马
+
+    def ss(x):
+
+    ​		if x == 1:
+
+    ​					return 1
+
+    ​		return x * ss(x - 1)
+
+11. P24函数：这帮小兔崽子
+
+12. P25递归：汉诺塔
+
+13. P26字典：当索引不好用时1
+
+    创建和使用字典
+
+    dict1 = {"sdf":"sdf", "sfw": "sdfs"}
+
+14. P27字典：当索引不好用时2
+
+    <font color=blue>fromkeys</font>
+
+    >dict1 = dict.fromkeys("12345")
+    >dict1
+    >{'1': None, '2': None, '3': None, '4': None, '5': None}
+
+    >>dict1 = dict.fromkeys("1234", "中国")
+    >>dict1
+    >>{'1': '中国', '2': '中国', '3': '中国', '4': '中国'}
+
+15. P28集合：在我的世界里，你就是唯一
+
+    集合中的元素都是唯一的
+
+    <font color=blue>frozenset</font>
+
+    冻结的集合
+
+    num3 = frozenset([1, 2, 3, 4])
+
+    不可修改
+
+16. P29因为懂你，所以永恒
+
+    open打开文件
+
+    ’r'以只读方式打开文件
+
+    'w'以写入的方式打开文件，会覆盖已存在的文件
+
+    'x'如果文件已经存在，使用此模式打开将引发异常
+
+    'a'以写入模式打开，如果文件存在，则在末尾追加写入
+
+    'b'以二进制模式打开
+
+    f.close()关闭文件
+
+    f.read(size=-1)从文件读取size个字符，当未给定size或给定负值的时候，读取剩余的所有字符，然后作为字符串返回
+
+    f.readline()
+
+    f.write(str)将字符串str写入文件
+
+    f.writelines(seq)向文件写入字符串序列seq，seq应该是一个返回字符串的课迭代对象
+
+    f.seek(offset,from) 在文件中移动文件指针，从from（0代表文件起始文件，1代表当前位置，2代表文件末尾）偏移offset个字符
+
+    f.tell()返回当前文件中的位置
+
+17. P30文件：一个任务
+
+18. P31文件系统：介绍一个高大上的东西
+
+    OS模块
+
+    getcwd()返回当前工作目录
+
+    chdir(path)改变工作目录
+
+    listdir(path=".") 列举指定目录中的文件名
+
+    mkdir(path)创建目录，该目录已存在抛出异常
+
+    makedirs(path)递归创建多层目录，如该目录已存在抛出异常
+
+    remove(path)删除文件
+
+    rmdir(path)删除目录
+
+    removedirs(path)递归删除目录，从子目录到父目录逐层删除，遇到目录非空则抛出异常
+
+    rename(old, new)将文件old重命名为new
+
+    system(command)运行系统的shell命令
+
+
+    os.curdir 指代当前目录('.')
+
+    os.pardir 指代上一级目录('..')
+
+    os.sep 输出操作系统特定的路径分隔符（win下为"\\\\",linux下为“/")
+
+    os.linesep 当前平台使用的行终止符(win下为"\\r\\n", linux下为"\\n")
+
+    os.name 指代当前使用的操作系统(包括：'posix','nt','mac','os2','ce','java')
+
+    
+
+    ##### os.path模块中关于路径常用的函数使用方法
+
+    basename(path)去掉目录路径，返回文件名
+
+    dirname(path)去掉文件名，返回目录路径
+
+    join(path1[,path2[,...])将path1，path2拼接路径
+
+    split(path)分隔文件名与路径
+
+    splitext(path)分离文件名与扩展名
+
+    getsize(file)返回指定文件的尺寸
+
+    getatime(file)返回指定文件最近的访问时间（浮点型秒数，可用time模块的gmtime()或
+
+    localtime()函数换算)
+
+    getctime(file)返回指定文件的创建时间
+
+    getmtime(file)返回指定文件最新的修改时间
+
+    exists(path)判断指定路径是否存在
+
+    isabs(path)判断指定路径是否绝对路径
+
+    isdir(path)判断指定路径是否存在且是一个目录
+
+    isfile(path)判断指定路径是否存在且是一个文件
+
+    islink(path)判断指定路径是否存在且是一个符号链接
+
+    ismount(path)判断指定路径是否存在且是一个挂载点
+
+    samefile(path1,path2)判断path1和path2两个路径是否指向同一个文件
+
+19. P32永久存储：腌制一缸美味的泡菜
+
+    pickle模块
+
+    dump写入
+
+    load加载
+
+20. P33异常处理：你不可能总是对的1
+
+    标准异常总结
+
+    AssertionError 断言语句失败
+
+    AttributeError尝试访问未知的对象属性
+
+    IndexError 索引超出序列的范围
+
+21. P34异常处理：你不可能总是对的2
+
+    try:
+
+    ​	检测范围
+
+    except Exception [as reason]:
+
+    ​	出现异常的处理情况
+
+
+
+​		try:
+
+​			检查范围
+
+​		except Exception[as reason]:
+
+​			出现异常
+
+​		finally:
+
+​			无论如何也执行
+
+​	raise ZeroDivisionError 主动抛异常
+
+22. P35丰富的else语句及简洁的with语句
+
+    with open("wo.txt") as f:
+
+23. P36推行用户界面入门：EasyGui
+
+24. P37类和对象：给大家介绍对象
+
+    属性+方法=对象
+
+    ```python
+    class Turtle:
+        def run(self, name):
+            print(name)
+            pass
+        @staticmethod
+        def funcname(parameter_list):
+            pass
+    t = Turtle()
+    print(t)
+    t.run("name")
+    ```
+
+    封装 继承 多态
+
+    ```python
+    class Turtle:
+        def run(self, name):
+            print(name)
+            pass
+    
+        @staticmethod
+        def funcname(parameter_list):
+            pass
+    
+    class MyTurtle(Turtle):
+        def sleep(self, name):
+            print(name)
+    
+    m = MyTurtle()
+    m.run("hello world")
+    
+    ```
+
+25. P38类和对象：面向对象编程
+
+    ```python
+    __init__(self) #构造函数
+    
+    class Ball:
+        def __init__(self):
+            self.name = "账啊"
+    
+        def run(self):
+            print(self.name)
+    
+    b = Ball()
+    b.run()
+    ```
+
+    公有和私有
+
+    __双下滑线的函数或者变量就变成私有变量或函数了
+
+26. P39类和对象：继承
+
+    ```python
+    class ClassName(BaseClassName):
+        ....
+    ```
+
+    ```python
+    import random as r
+    
+    class Fish:
+        def __init__(self):
+            self.x = r.randint(0, 10)
+            self.y = r.randint(0, 10)
+    
+        def move(self):
+            self.x -=1
+            print("我的位置是:", self.x, self.y)
+    
+    class Goldfish(Fish):
+        pass
+    class Carp(Fish):
+        pass
+    class Salmon(Fish):
+        pass
+    
+    class Shark(Fish):
+        def __init__(self):
+            Fish.__init__(self)
+            self.hungry = True
+    
+        def eat(self):
+            if self.hungry:
+                print("吃货的梦想就是天天有的吃")
+                self.hungry = False
+            else:
+                print("太撑了，吃不下了")
+    
+    ```
+
+    <font color=red>super().__init__()</font>
+
+    支持多重继承
+
+    ```python
+    class ClassName(baseClass1,baseClass2):
+        ....
+    ```
+
+27. P40 类和对象：拾遗
+
+28. P41类和对象：一些相关的BIF
+
+    issubclass(class, classinfo) 
+
+    >>issubclass(B, object)
+    >>True
+
+    isinstance(object, classinfo)
+
+    hasattr(object, name) 判断是否有该指定属性
+
+    getattr(object, name[,default])返回对象指定属性的值
+
+    setattr(object,name,value) 设定指定属性的值
+
+    delattr(object,name)删除指定的属性
+
+    property(fget=None, fset=None, fdel =None, doc=None)属性设置属性
+
+    ```python
+    >>> class C:
+    	def __init__(self, size=10):
+    		self.size = size
+    	def getSize(self):
+    		return self.size
+    	def setSize(self, value):
+    		self.size = value
+    	def delSize(self):
+    		del self.size
+    	x = property(getSize, setSize, delSize)
+    
+    	
+    >>> cl = C()
+    >>> cl.x
+    ```
+
+29. P42魔法方法：构造和析构
+
+    魔法方法总是被双下划线包围，例如__init__
+
+    ```python
+    def __init__(self[,...])
+    __new__(cls[,...])
+    ```
+
+    ```python
+    >>> class CapStr(str): # 继承的是一个不可改变的类
+    	def __new__(cls,string): #可以在new的时候进行替换，然后将替换后的返回
+    		string = string.upper()
+    		return str.__new__(cls, string)
+    
+    	
+    >>> a = CapStr("hello I")
+    >>> a
+    'HELLO I'
+    ```
+
+    ```python
+    __del__(self) #析构函数，当垃圾回收的时候会执行
+    >>> class C:
+    	def __init__(self):
+    		print("我是init")
+    	def __del__(self):
+    		print("我是del")
+    
+    		
+    >>> c = C()
+    我是init
+    >>> del c
+    我是del
+    >>> 
+    ```
+
+30. P43魔法方法：算术运算1
+
+    | 魔法方法                     | 说明                                |
+    | ---------------------------- | ----------------------------------- |
+    | __add__(self, other)         | 定义加法的行为：+                   |
+    | __sub__(self, other)         | 定义减法的行为:-                    |
+    | __mul__(self, other)         | 定义乘法的行为：*                   |
+    | __truediv__(self,other)      | 定义真除法的行为:/                  |
+    | __floordiv__(self,other)     | 定义整数除法的行为://               |
+    | __mod__(self,other)          | 定义取模算法的行为：%               |
+    | __divmod__(self,other)       | 定义当被divmod()调用时的行为        |
+    | __pow__(self,other[,moduio]) | 定义当被power()调用或**运算时的行为 |
+    | __ishift__(self,other)       | 定义按位左移位的行为：<<            |
+    | __rshift__(self,other)       | 定义右移位的行为：>>                |
+    | __and__(self,other)          | 定义按位与操作的行为：&             |
+    | __xor__(selft,other)         | 定位按位异或的行为：^               |
+    | __or__(self,other)           | 定义按位或的行为：\|                |
+
+    ```python
+    >>> class New_int(int):
+    	def __add__(self, other): #重写加法运算
+    		return int.__sub__(self, other)
+    	def __sub__(self, other): #重写减法运算
+    		return int.__add__(self, other)
+    
+    	
+    >>> a = New_int(3)
+    >>> b = New_int(5)
+    >>> a + b
+    -2
+    >>> 
+    ```
+
+31. P44 魔法方法：算术预算2
+
+32. P45魔法方法：简单定制
+
+    ```python
+    >>> class A():
+    	def __str__(self):
+    		return "小甲鱼是帅哥"
+    
+    	
+    >>> a = A()
+    >>> print(a)
+    小甲鱼是帅哥
+    >>> class B():
+    	def __repr__(self):
+    		return "小甲鱼"
+    
+    	
+    >>> b = B()
+    >>> b
+    小甲鱼
+    ```
+
+    ```python
+    import time as t
+    
+    class MyTime():
+        def __init__(self):
+            self.unit = ['年','月','天','小时时','分钟','秒']
+            self.prompt = "未开始计时"
+            self.lasted = []
+            self.begin = 0
+            self.end = 0
+        def __str__(self):
+            return self.prompt
+        __repr__ = __str__
+        def __add__(self, other):
+            prompt = "总共运行了"
+            result = []
+            for index in range(6):
+                result.append(self.lasted[index] + other.lasted[index])
+                if result[index]:
+                    prompt += (str(result[index]) + self.unit[index])
+                return prompt
+        # 开始计时
+        def start(self):
+            self.begin = t.localtime()
+            self.prompt = "提示，请先条用stop亭子计时"
+            print("计时开始")
+    
+        # 停止计时
+        def stop(self):
+            if not self.begin:
+                print("提示", "请先代用start()")
+            else:
+                self.end = t.localtime()
+                self._calc()
+                print("计时停止")
+                self.begin = 0
+                self.end = 0
+    
+        # 内部方法计算运行时间
+        def _calc(self):
+            self.lasted = []
+            self.prompt = "总共运行了"
+            for index in range(6):
+                self.lasted.append(self.end[index] - self.begin[index])
+                if self.lasted[index]:
+                    self.prompt += str(self.lasted[index]) + self.unit[index]
+        
+            
+    
+    ```
+
+    
+
 ### 2月28日
 
 1. P7Python之常用操作符
