@@ -1,6 +1,328 @@
 # 《零基础入门学习Python》(小甲鱼)学习记录
 
-2月29日
+### 3月1日
+
+1. P46魔法方法：属性访问
+
+   getattr
+
+   setattr
+
+   delattr
+
+   property
+
+   ```python
+   >>> class C:
+   	def __init__(self, size=10):
+   		self.size = size
+   	def getSize(self):
+   		return self.size
+   	def setSize(self, value):
+   		self.size = value
+   	def delSize(self):
+   		del self.size
+   	x = property(getSize, setSize, delSize)
+   ```
+
+   ```python
+   __getattr__(self,name)定义当用户视图获取一个不存在的属性时的行为
+   __getattribute__(self,name)
+   定义当该类的属性被访问时的行为
+   __setattr__(self,name,value)
+   定义当一个属性被设置时的行为
+   __delattr__(self,name)
+   定义当一个属性被删除时的行为
+   
+   >>> class C:
+   	def __getattribute__(self,name):
+   		print("getattribute")
+   		return super().__getattribute__(name)
+   	def __getattr__(self, name):
+   		print("getattr")
+   	def __setattr__(self,name,value):
+   		print("seattr")
+   		super().__setattr__(name,value)
+   	def __delattr__(self, name):
+   		print("delattr")
+   		super().__delattr__(name)
+   ```
+
+   防止递归调用
+
+   ```python
+   class Rectangle:
+       def __init__(self, width = 0, height = 0):
+           self.width = width
+           self.height = height
+   
+       def __setattr__(self, name, value):
+           print(name)
+           if name == "square":
+               self.width = value
+               self.height = value
+           else:
+               super().__setattr__(name, value)
+               #self.__dict__[name] = value
+   
+       def getArea(self):
+           return self.width * self.height
+   ```
+
+   2. P47魔法方法：描述符(property的原理)
+
+      描述符
+
+      描述符就是某种特殊类型的类的实例指派给另一个类的属性
+
+      ```python
+      __get_(self, instance,owner)
+      用于访问属性，它返回属性的值
+      __set__(self, instance, value)
+      将在属性分配操作中调用，不返回任何内容
+      __delete__(self, instance)
+      控制删除操作，不返回任何内容
+      ```
+
+   3. P48魔法方法：定制序列
+
+      | 函数名                        | 说明                                                  |
+      | ----------------------------- | ----------------------------------------------------- |
+      | __len__(self)                 | 定义当被len()调用时的行为（返回容器中元素的个数       |
+      | __getitem__(self, key)        | 定义获取容器中指定元素的行为，相当于self[key]         |
+      | __setitem__(self, key, value) | 定义设置容器中指定元素的行为，相当于self[key] = value |
+      | __delitem__(self, key)        | 定义删除容器中指定元素的行为，相当于del self[key]     |
+      | __iter__(self)                | 定义当迭代器中的元素的行为                            |
+      | __reversed__(self)            | 定义当被reversed()调用时的行为                        |
+      | __contains__(self, item)      | 定义当使用成员测试运算符(in 或not in)                 |
+
+      ```python
+      class CountList:
+          def __init__(self, *args):
+              self.values = [x for x in args]
+              self.count = {}.fromkeys(range(len(self.values)), 0)
+      
+          def __len__(self):
+              return len(self.values)
+          def __getitem__(self, key):
+              self.count[key] += 1
+              return self.values[key]
+      ```
+
+      4. P49 魔法方法：迭代器
+
+         ```python
+         iter()
+         __iter__()魔法方法
+         next()
+         __next__()魔法方法
+         >>> string = "我爱中国"
+         >>> it = iter(string)
+         >>> next(it)
+         '我'
+         >>> 
+         实现迭代器对象
+         class Fibs:
+             def __init__(self, n = 10):
+                 self.n = n
+                 self.a = 0
+                 self.b = 1
+             def __iter__(self):
+                 return self
+             def __next__(self):
+                 self.a, self.b = self.b, self.a + self.b
+                 if self.a > self.n:
+                     raise StopIteration
+                 return self.a
+         
+         fibs = Fibs()
+         for each in fibs:
+             print(each)
+         ```
+
+      5. P50乱入：生成器
+
+         yield
+
+         ```python
+         >>> def myGen():
+         	print("生成器被执行!")
+         	yield 1
+         	yield 2
+         my = myGen()
+         next(my)
+         next(my)
+         也可以使用for
+         for each in my:
+             print(each)
+         ```
+
+         ```python
+         列表推导式
+         a = [i for i in range(100) if not(i % 2) and i % 3]
+         字典推导式
+         b = {i:i % 2 == 0 for i in range(10)}
+         >>> b
+         {0: True, 1: False, 2: True, 3: False, 4: True, 5: False, 6: True, 7: False, 8: True, 9: False}
+         >>> 
+         集合推导式
+         >>> c = {i for i in {1, 2, 3, 4, 56, 4,4}}
+         >>> c
+         {1, 2, 3, 4, 56}
+         >>> 
+         生成器推导式
+         >>> e = (i for i in range(100))
+         >>> e
+         <generator object <genexpr> at 0x000001F32F7C9AC0>
+         >>> 
+         ```
+
+      6. P51模块：模块就是程序
+
+         容器->数据的封装
+
+         函数->语句的封装
+
+         类=>方法和属性的封装
+
+         模块->模块就是程序
+
+         > 导入模块
+         >
+         > import hello
+         >
+         > from hello import * #不需要前缀模块名调用
+         >
+         > import hello as newName
+
+      7. P52模块：__name__='__main__'搜索路径和包
+
+         ```python
+         if __name__ == '__main__'
+         import sys
+         sys.path
+         ```
+
+      8. P53模块：像个极客一样去思考
+
+         用一种方法，最好是只有一种方法来做一件事
+
+         Python标准库中包含一般任务所需要的模块
+
+         timeit
+         
+      9. P54论一只爬虫的自我修养1
+      
+         urllib
+      
+         http,https,ftp,file,ed2k...
+      
+         import urllib.request
+      
+         response = urllib.request.urlopen("http://www.baidu.com")
+      
+      10. P55论一只爬虫的自我修养2：实战
+      
+          import urllib.parse
+      
+          urllib.parse.urlencode(data).encode("utf-8")
+      
+      11. P56论一只爬虫的自我修养3：隐藏
+      
+          代理
+      
+          步骤：
+      
+          1参数是一个字典{'类型':'代理IP:端口号'}
+      
+          proxy_support = urllib.request.ProxyHandler({})
+      
+          2定制、创建一个opener
+      
+          opener = urllib.request.build_opener(proxy_support)
+      
+          3安装opener
+      
+          urllib.request.install_opener(opener)
+      
+          4调用
+      
+          opener.open(url)
+      
+      12. P57论一只爬虫的自我修养4：ooxx
+      
+      13. P65GUI的终极选择：tkinter1
+      
+          import tkinter
+      
+          ```python
+          import tkinter as tk
+          
+          class App:
+              def __init__(self, master):
+                  frame = tk.Frame(master)
+                  frame.pack(side = tk.LEFT, padx = 10, pady = 100)
+          
+                  self.hi_there = tk.Button(frame, text = "打招呼", fg="blue", bg = "white", command=self.say_hi)
+                  self.hi_there.pack()
+          
+              def say_hi(self):
+                  print("互联网的广大朋友你们好")
+          
+          root = tk.Tk()
+          app = App(root)
+          
+          root.mainloop()
+          ```
+      
+      14. P66GUI的终极选择：tkinter2
+      
+      15. P79 Pygame：初次见面，请大家多多关照
+      
+          ```python
+          import pygame
+          import sys
+          #初始化pygame
+          pygame.init()
+          size = width, height = 600, 400
+          speed = [-2, 1]
+          bg = (255, 255, 255)
+          # 创建指定大小的窗口
+          screen = pygame.display.set_mode(size)
+          # 设置窗口标题
+          pygame.display.set_caption("初次见面")
+          # 加载图片
+          turtle = pygame.image.load("22.jpg")
+          # 获取图像的位置矩形
+          position = turtle.get_rect()
+          
+          while True:
+              for event in pygame.event.get():
+                  if event.type == pygame.QUIT:
+                      sys.exit()
+              #移动图形
+              position = position.move(speed)
+          
+              if position.left < 0 or position.right > width:
+                  #翻转图像
+                  turtle = pygame.transform.flip(turtle, True, False)
+                  #反向移动
+                  speed[0] = -speed[0]
+          
+              if position.top < 0 or position.bottom > height:
+                  speed[1] = -speed[1]
+              #填充背景
+              screen.fill(bg)
+              screen.blit(turtle, position)
+              pygame.display.flip()
+              pygame.time.delay(1000)
+          ```
+      
+      16. P80Pygame:解惑
+      
+      17. P81Pygame:事件
+
+### 2月29日
 
 1. P14元组：戴上枷锁的列表
 
@@ -288,51 +610,52 @@
 
 
     os.curdir 指代当前目录('.')
-
+    
     os.pardir 指代上一级目录('..')
-
+    
     os.sep 输出操作系统特定的路径分隔符（win下为"\\\\",linux下为“/")
-
+    
     os.linesep 当前平台使用的行终止符(win下为"\\r\\n", linux下为"\\n")
-
+    
     os.name 指代当前使用的操作系统(包括：'posix','nt','mac','os2','ce','java')
 
-    
+
+​    
 
     ##### os.path模块中关于路径常用的函数使用方法
-
+    
     basename(path)去掉目录路径，返回文件名
-
+    
     dirname(path)去掉文件名，返回目录路径
-
+    
     join(path1[,path2[,...])将path1，path2拼接路径
-
+    
     split(path)分隔文件名与路径
-
+    
     splitext(path)分离文件名与扩展名
-
+    
     getsize(file)返回指定文件的尺寸
-
+    
     getatime(file)返回指定文件最近的访问时间（浮点型秒数，可用time模块的gmtime()或
-
+    
     localtime()函数换算)
-
+    
     getctime(file)返回指定文件的创建时间
-
+    
     getmtime(file)返回指定文件最新的修改时间
-
+    
     exists(path)判断指定路径是否存在
-
+    
     isabs(path)判断指定路径是否绝对路径
-
+    
     isdir(path)判断指定路径是否存在且是一个目录
-
+    
     isfile(path)判断指定路径是否存在且是一个文件
-
+    
     islink(path)判断指定路径是否存在且是一个符号链接
-
+    
     ismount(path)判断指定路径是否存在且是一个挂载点
-
+    
     samefile(path1,path2)判断path1和path2两个路径是否指向同一个文件
 
 19. P32永久存储：腌制一缸美味的泡菜
